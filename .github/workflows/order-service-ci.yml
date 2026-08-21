@@ -1,0 +1,36 @@
+name: Order Service CI
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'services/order-service/**'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'services/order-service/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: services/order-service
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: ./mvnw clean compile -B
+
+      - name: Run tests
+        run: ./mvnw test -B
