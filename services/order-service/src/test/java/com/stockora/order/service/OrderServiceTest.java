@@ -2,10 +2,10 @@ package com.stockora.order.service;
 
 import com.stockora.order.client.InventoryClient;
 import com.stockora.order.client.ProductResponse;
+import com.stockora.order.event.OrderEventPublisher;
 import com.stockora.order.model.Order;
 import com.stockora.order.model.OrderStatus;
 import com.stockora.order.repository.OrderRepository;
-import com.stockora.order.event.OrderEventPublisher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
