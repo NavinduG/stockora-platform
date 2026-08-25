@@ -29,6 +29,9 @@ class OrderServiceTest {
     @InjectMocks
     private OrderService orderService;
 
+    @Mock
+    private OrderEventPublisher orderEventPublisher;
+
     @Test
     void createOrder_whenEnoughStock_confirmsOrder() {
         ProductResponse product = new ProductResponse();
