@@ -1,6 +1,9 @@
 package com.stockora.order.config;
 
 import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,5 +30,17 @@ public class RabbitMQConfig {
                 .bind(orderCreatedQueue)
                 .to(orderExchange)
                 .with(ORDER_CREATED_ROUTING_KEY);
+    }
+
+    @Bean
+    public JacksonJsonMessageConverter jsonMessageConverter() {
+        return new JacksonJsonMessageConverter();
+    }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory, JacksonJsonMessageConverter converter) {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(converter);
+        return template;
     }
 }
