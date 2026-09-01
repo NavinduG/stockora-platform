@@ -6,29 +6,16 @@
 
 Stockora is composed of three independently deployable Spring Boot microservices, each owning its own data, communicating via both synchronous REST calls and asynchronous event messaging.
 
-┌──────────────────┐ REST call ┌───────────────────┐
-│ Order Service │───────────────▶│ Inventory Service │
-│ (Spring Boot) │ check stock │ (Spring Boot) │
-└──────────────────┘ └───────────────────┘
-│ │
-│ publishes │
-│ OrderCreated │
-▼ ▼
-┌─────────────┐ ┌─────────────┐
-│ RabbitMQ │ │ PostgreSQL │
-│ (CloudAMQP) │ │ (Supabase) │
-└─────────────┘ └─────────────┘
-│
-│ consumes
-▼
-┌──────────────────────┐
-│ Notification Service │
-│ (Spring Boot) │
-└──────────────────────┘
+```mermaid
+graph LR
+    OS[Order Service] -->|REST: check stock| IS[Inventory Service]
+    OS -->|publishes OrderCreated| MQ[(RabbitMQ<br/>CloudAMQP)]
+    MQ -->|consumes| NS[Notification Service]
+    OS -.-> ODB[(PostgreSQL<br/>Order DB - Supabase)]
+    IS -.-> IDB[(PostgreSQL<br/>Inventory DB - Supabase)]
+```
 
-Order Service also has its own PostgreSQL database (Supabase),
-separate from Inventory Service's — true database-per-service pattern.
-
+Order Service and Inventory Service each have their own separate PostgreSQL database — true database-per-service pattern.
 
 ## 🧰 Tech Stack
 
