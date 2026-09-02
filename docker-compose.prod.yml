@@ -1,0 +1,42 @@
+services:
+  inventory-service:
+    image: navindug/stockora-inventory-service:latest
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: ${INVENTORY_DB_HOST}
+      DB_PORT: 5432
+      DB_NAME: postgres
+      DB_USER: ${INVENTORY_DB_USER}
+      DB_PASSWORD: ${INVENTORY_DB_PASSWORD}
+    restart: unless-stopped
+
+  order-service:
+    image: navindug/stockora-order-service:latest
+    ports:
+      - "8081:8081"
+    environment:
+      DB_HOST: ${ORDER_DB_HOST}
+      DB_PORT: 5432
+      DB_NAME: postgres
+      DB_USER: ${ORDER_DB_USER}
+      DB_PASSWORD: ${ORDER_DB_PASSWORD}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      RABBITMQ_VHOST: ${RABBITMQ_VHOST}
+      INVENTORY_SERVICE_URL: http://inventory-service:8080
+    restart: unless-stopped
+    depends_on:
+      - inventory-service
+
+  notification-service:
+    image: navindug/stockora-notification-service:latest
+    ports:
+      - "8082:8082"
+    environment:
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      RABBITMQ_VHOST: ${RABBITMQ_VHOST}
+    restart: unless-stopped
