@@ -73,6 +73,15 @@ resource "aws_instance" "stockora_server" {
   key_name               = aws_key_pair.stockora_key.key_name
   vpc_security_group_ids = [aws_security_group.stockora_sg.id]
 
+  user_data = <<-EOF
+    #!/bin/bash
+    fallocate -l 1G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+    echo '/swapfile none swap sw 0 0' >> /etc/fstab
+  EOF
+
   tags = {
     Name = "stockora-server"
   }
