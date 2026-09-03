@@ -2,6 +2,16 @@
 
 **Stockora** is a cloud-native e-commerce order & inventory management platform built with a microservices architecture. It's a portfolio project demonstrating backend engineering and DevOps practices end-to-end — from service design through async messaging, testing, containerization, and CI/CD.
 
+## 🌐 Live Demo
+
+Deployed on AWS EC2 (Terraform-provisioned) — try it yourself:
+
+- **Inventory Service**: http://13.51.56.164:8080/products
+- **Order Service**: http://13.51.56.164:8081/orders
+- **Notification Service**: http://13.51.56.164:8082/actuator/health
+
+*(Note: this is a portfolio demo instance — may be stopped periodically to manage AWS costs)*
+
 ## 🏗️ Architecture
 
 Stockora is composed of three independently deployable Spring Boot microservices, each owning its own data, communicating via both synchronous REST calls and asynchronous event messaging.
