@@ -9,7 +9,9 @@ services:
       DB_NAME: postgres
       DB_USER: ${INVENTORY_DB_USER}
       DB_PASSWORD: ${INVENTORY_DB_PASSWORD}
+      JAVA_TOOL_OPTIONS: "-Xmx200m"
     restart: unless-stopped
+    mem_limit: 300m
 
   order-service:
     image: navindug/stockora-order-service:latest
@@ -26,7 +28,9 @@ services:
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       RABBITMQ_VHOST: ${RABBITMQ_VHOST}
       INVENTORY_SERVICE_URL: http://inventory-service:8080
+      JAVA_TOOL_OPTIONS: "-Xmx200m"
     restart: unless-stopped
+    mem_limit: 300m
     depends_on:
       - inventory-service
 
@@ -39,4 +43,6 @@ services:
       RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       RABBITMQ_VHOST: ${RABBITMQ_VHOST}
+      JAVA_TOOL_OPTIONS: "-Xmx150m"
     restart: unless-stopped
+    mem_limit: 250m
