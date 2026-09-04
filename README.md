@@ -89,6 +89,14 @@ Every push to `master` automatically:
 
 No manual deployment steps required.
 
+## 📊 Monitoring
+
+Prometheus collects metrics continuously from all three services via `/actuator/prometheus` endpoints. Grafana is available for visualization but run on-demand rather than 24/7, due to memory constraints on the free-tier EC2 instance (`t3.micro`, 1GB RAM) — a deliberate resource tradeoff to keep the core services stable.
+
+**To view dashboards:** SSH into the server and run `docker compose up -d grafana`, then visit `http://<EC2_IP>:3000`. Since Prometheus runs continuously, historical metrics are available immediately once Grafana starts.
+
+A saved dashboard ("Stockora Services Overview") shows JVM heap memory across all three services.
+
 ## 🚀 Running Locally
 
 Each service has its own README with detailed setup instructions. Quick start (requires all three running together for the full flow):
