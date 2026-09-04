@@ -80,6 +80,15 @@ Consumes `OrderCreated` events from RabbitMQ and logs a simulated notification (
 - **Containerization** — multi-stage Dockerfiles for small, production-ready images, consistent across all services
 - **Cloud-native development** — built entirely in GitHub Codespaces, connected to managed cloud services (Supabase, CloudAMQP) — zero local infrastructure
 
+## 🔄 CI/CD
+
+Every push to `master` automatically:
+1. Builds and tests the affected service
+2. Builds a Docker image and pushes it to Docker Hub
+3. Deploys the updated container to the live EC2 instance via SSH
+
+No manual deployment steps required.
+
 ## 🚀 Running Locally
 
 Each service has its own README with detailed setup instructions. Quick start (requires all three running together for the full flow):
