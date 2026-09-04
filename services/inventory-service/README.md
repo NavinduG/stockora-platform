@@ -80,3 +80,4 @@ Spring Boot Actuator exposes health and metrics endpoints:
 - `GET /actuator/health`
 - `GET /actuator/info`
 - `GET /actuator/metrics`# Inventory Service
+
