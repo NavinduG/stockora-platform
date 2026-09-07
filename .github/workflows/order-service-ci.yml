@@ -32,8 +32,8 @@ jobs:
       - name: Build with Maven
         run: ./mvnw clean compile -B
 
-      - name: Run tests
-        run: ./mvnw test -B
+      - name: Run tests (unit + integration)
+        run: ./mvnw verify -B
 
   deploy:
     needs: build-and-test
