@@ -48,7 +48,7 @@ resource "aws_security_group" "stockora_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-    ingress {
+  ingress {
     description = "Prometheus"
     from_port   = 9090
     to_port     = 9090
@@ -97,6 +97,10 @@ resource "aws_instance" "stockora_server" {
     swapon /swapfile
     echo '/swapfile none swap sw 0 0' >> /etc/fstab
   EOF
+
+  lifecycle {
+    ignore_changes = [ami]
+  }
 
   tags = {
     Name = "stockora-server"
