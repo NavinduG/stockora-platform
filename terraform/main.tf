@@ -103,6 +103,20 @@ resource "aws_instance" "stockora_server" {
   }
 }
 
+# Elastic IP - gives the instance a permanent public address
+resource "aws_eip" "stockora_eip" {
+  domain = "vpc"
+
+  tags = {
+    Name = "stockora-eip"
+  }
+}
+
+resource "aws_eip_association" "stockora_eip_assoc" {
+  instance_id   = aws_instance.stockora_server.id
+  allocation_id = aws_eip.stockora_eip.id
+}
+
 # Automatically find the latest Ubuntu 22.04 AMI
 data "aws_ami" "ubuntu" {
   most_recent = true
@@ -115,5 +129,5 @@ data "aws_ami" "ubuntu" {
 }
 
 output "instance_public_ip" {
-  value = aws_instance.stockora_server.public_ip
+  value = aws_eip.stockora_eip.public_ip
 }
