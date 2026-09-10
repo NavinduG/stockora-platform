@@ -12,6 +12,12 @@ Deployed on AWS EC2 (Terraform-provisioned) — try it yourself:
 
 *(Note: this is a portfolio demo instance — may be stopped periodically to manage AWS costs)*
 
+## 📖 API Documentation
+
+Interactive Swagger UI available for services with REST APIs:
+- **Inventory Service**: http://51.21.45.93:8080/swagger-ui/index.html
+- **Order Service**: http://51.21.45.93:8081/swagger-ui/index.html
+
 ## 🏗️ Architecture
 
 Stockora is composed of three independently deployable Spring Boot microservices, each owning its own data, communicating via both synchronous REST calls and asynchronous event messaging.
