@@ -127,9 +127,12 @@ export RABBITMQ_HOST=... RABBITMQ_USERNAME=... RABBITMQ_PASSWORD=... RABBITMQ_VH
 - [x] CI pipelines (unit + integration tests) for all services
 - [x] RabbitMQ event-driven messaging (Order → Notification)
 - [x] Notification Service
-- [ ] CD — auto-publish Docker images to GitHub Container Registry
-- [ ] Deploy to cloud (Terraform + VM/ECS)
-- [ ] Monitoring dashboard (Prometheus + Grafana)
+- [x] CD — auto-build and deploy on every push to master
+- [x] Deploy to cloud (Terraform + EC2, Elastic IP)
+- [x] Monitoring dashboard (Prometheus + Grafana)
+- [ ] Stock reservation on order confirmation (currently checks only, doesn't decrement)
+- [ ] API authentication
+- [ ] Centralized logging
 
 ## 📄 License
 
