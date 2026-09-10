@@ -6,9 +6,9 @@
 
 Deployed on AWS EC2 (Terraform-provisioned) — try it yourself:
 
-- **Inventory Service**: http://13.51.56.164:8080/products
-- **Order Service**: http://13.51.56.164:8081/orders
-- **Notification Service**: http://13.51.56.164:8082/actuator/health
+- **Inventory Service**: http://51.21.45.93:8080/products
+- **Order Service**: http://51.21.45.93:8081/orders
+- **Notification Service**: http://51.21.45.93:8082/actuator/health
 
 *(Note: this is a portfolio demo instance — may be stopped periodically to manage AWS costs)*
 
