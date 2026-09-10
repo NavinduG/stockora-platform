@@ -37,8 +37,8 @@ Order Service and Inventory Service each have their own separate PostgreSQL data
 | Containerization | Docker (multi-stage builds, all services) |
 | CI/CD | GitHub Actions (independent pipeline per service) |
 | Testing | JUnit 5, Mockito, Testcontainers |
-| Cloud Deployment | *(planned — Terraform + cloud VM)* |
-| Monitoring | Spring Boot Actuator *(Prometheus/Grafana planned)* |
+| Cloud Deployment | AWS EC2 (Terraform-provisioned), Elastic IP |
+| Monitoring | Spring Boot Actuator, Prometheus (always-on), Grafana (on-demand) |
 
 ## 📦 Services
 
