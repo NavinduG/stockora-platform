@@ -58,7 +58,7 @@ Manages product inventory — stock levels and product catalog.
 ### [`order-service`](./services/order-service)
 Handles order creation. Calls Inventory Service synchronously to check stock, then publishes an `OrderCreated` event to RabbitMQ regardless of outcome (confirmed or rejected).
 
-**Status:** ✅ Complete — CRUD API, inter-service REST calls, event publishing, unit tests, Dockerized, CI.
+**Status:** ✅ Complete — CRUD API, inter-service REST calls, event publishing, unit + Testcontainers integration tests, Dockerized, CI/CD.
 
 | Endpoint | Method | Description |
 |---|---|---|
