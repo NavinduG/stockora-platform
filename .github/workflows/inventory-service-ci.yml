@@ -33,6 +33,8 @@ jobs:
         run: ./mvnw clean compile -B
 
       - name: Run tests (unit + integration)
+        env:
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
         run: ./mvnw verify -B
 
   deploy:
