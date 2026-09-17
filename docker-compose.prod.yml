@@ -13,6 +13,7 @@ services:
       RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       RABBITMQ_VHOST: ${RABBITMQ_VHOST}
+      JWT_SECRET: ${JWT_SECRET}
       JAVA_TOOL_OPTIONS: "-Xmx200m"
     restart: unless-stopped
     mem_limit: 300m
@@ -32,6 +33,9 @@ services:
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       RABBITMQ_VHOST: ${RABBITMQ_VHOST}
       INVENTORY_SERVICE_URL: http://inventory-service:8080
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       JAVA_TOOL_OPTIONS: "-Xmx200m"
     restart: unless-stopped
     mem_limit: 300m
@@ -47,6 +51,7 @@ services:
       RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       RABBITMQ_VHOST: ${RABBITMQ_VHOST}
+      JWT_SECRET: ${JWT_SECRET}
       JAVA_TOOL_OPTIONS: "-Xmx150m"
     restart: unless-stopped
     mem_limit: 250m
