@@ -22,7 +22,7 @@ public class OrderController {
         this.orderRepository = orderRepository;
     }
 
-    // GET /orders - list all orders
+    // GET /orders - List all orders
     @GetMapping
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
