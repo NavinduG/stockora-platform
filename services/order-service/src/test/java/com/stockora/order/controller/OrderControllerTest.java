@@ -3,6 +3,7 @@ package com.stockora.order.controller;
 import com.stockora.order.model.Order;
 import com.stockora.order.model.OrderStatus;
 import com.stockora.order.repository.OrderRepository;
+import com.stockora.order.security.JwtUtil;
 import com.stockora.order.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ class OrderControllerTest {
 
     @MockitoBean
     private OrderRepository orderRepository;
+
+    @MockitoBean
+    private JwtUtil jwtUtil;
 
     @Autowired
     private JsonMapper objectMapper;
