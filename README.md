@@ -95,6 +95,27 @@ Every push to `master` automatically:
 
 No manual deployment steps required.
 
+## 🔐 Authentication
+
+All API endpoints (except health checks, API docs, and monitoring) require a valid JWT token.
+
+**Get a token:**
+```bash
+curl -X POST http://<EC2_IP>:8081/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"<your-password>"}'
+```
+
+**Use the token on any protected endpoint:**
+```bash
+curl http://<EC2_IP>:8080/products \
+  -H "Authorization: Bearer <token>"
+```
+
+Tokens are valid for 1 hour. All three services share a single signing secret (`JWT_SECRET`), so a token issued by Order Service is valid across Inventory and Notification Service too — a common pattern for microservices without a dedicated auth gateway.
+
+**Note:** authentication currently uses a single admin credential pair (env-var based), not a full user management system — a deliberate simplification for this portfolio project. A production system would add per-user accounts, refresh tokens, and role-based access control.
+
 ## 📊 Monitoring
 
 Prometheus collects metrics continuously from all three services via `/actuator/prometheus` endpoints. Grafana is available for visualization but run on-demand rather than 24/7, due to memory constraints on the free-tier EC2 instance (`t3.micro`, 1GB RAM) — a deliberate resource tradeoff to keep the core services stable.
