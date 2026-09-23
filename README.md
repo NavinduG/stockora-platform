@@ -45,6 +45,7 @@ Order Service and Inventory Service each have their own separate PostgreSQL data
 | Testing | JUnit 5, Mockito, Testcontainers |
 | Cloud Deployment | AWS EC2 (Terraform-provisioned), Elastic IP |
 | Monitoring | Spring Boot Actuator, Prometheus (always-on), Grafana (on-demand) |
+| Security | Spring Security, JWT (JJWT) — shared-secret auth across all services |
 
 ## 📦 Services
 
@@ -158,7 +159,8 @@ export RABBITMQ_HOST=... RABBITMQ_USERNAME=... RABBITMQ_PASSWORD=... RABBITMQ_VH
 - [x] Deploy to cloud (Terraform + EC2, Elastic IP)
 - [x] Monitoring dashboard (Prometheus + Grafana)
 - [x] Stock reservation on order confirmation — Inventory Service consumes OrderCreated events and atomically decrements stock
-- [ ] API authentication
+- [x] API authentication (JWT)
+- [ ] RabbitMQ resilience (dead-letter queue + retry handling)
 - [ ] Centralized logging
 
 ## 📄 License
