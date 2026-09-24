@@ -21,7 +21,10 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue inventoryStockQueue() {
-        return new Queue(INVENTORY_STOCK_QUEUE, true);
+        return QueueBuilder.durable(INVENTORY_STOCK_QUEUE)
+                .withArgument("x-dead-letter-exchange", "inventory.dlx")
+                .withArgument("x-dead-letter-routing-key", "inventory.stock.dlq")
+                .build();
     }
 
     @Bean
@@ -44,5 +47,20 @@ public class RabbitMQConfig {
         factory.setConnectionFactory(connectionFactory);
         factory.setMessageConverter(converter);
         return factory;
+    }
+
+    @Bean
+    public TopicExchange inventoryDeadLetterExchange() {
+        return new TopicExchange("inventory.dlx");
+    }
+
+    @Bean
+    public Queue inventoryStockDeadLetterQueue() {
+        return QueueBuilder.durable("inventory.stock.dlq").build();
+    }
+
+    @Bean
+    public Binding inventoryDlqBinding(Queue inventoryStockDeadLetterQueue, TopicExchange inventoryDeadLetterExchange) {
+        return BindingBuilder.bind(inventoryStockDeadLetterQueue).to(inventoryDeadLetterExchange).with("inventory.stock.dlq");
     }
 }
