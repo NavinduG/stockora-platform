@@ -4,6 +4,7 @@ package com.stockora.inventory.controller;
 import tools.jackson.databind.json.JsonMapper;
 import com.stockora.inventory.model.Product;
 import com.stockora.inventory.repository.ProductRepository;
+import com.stockora.inventory.security.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,6 +28,9 @@ class ProductControllerTest {
 
     @MockitoBean
     private ProductRepository productRepository;
+
+    @MockitoBean
+    private JwtUtil jwtUtil;
 
     @Autowired
     private JsonMapper objectMapper;
