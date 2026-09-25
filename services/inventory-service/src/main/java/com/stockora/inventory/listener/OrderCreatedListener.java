@@ -23,7 +23,8 @@ public class OrderCreatedListener {
     @Transactional
     @RabbitListener(queues = RabbitMQConfig.INVENTORY_STOCK_QUEUE)
     public void handleOrderCreated(OrderCreatedEvent event) {
-        //if (true) { throw new RuntimeException("TEST: forcing failure to check retry/DLQ behavior"); }  // TEMPORARY - remove after testing
+        // Uncomment the following line to simulate a failure for testing retry and dead-letter queue behavior
+        //if (true) { throw new RuntimeException("TEST: forcing failure to check retry/DLQ behavior"); }
 
         if (!"CONFIRMED".equals(event.getStatus())) {
             logger.info("Ignoring order #{} with status {} - no stock change needed",
