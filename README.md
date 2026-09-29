@@ -117,6 +117,10 @@ Tokens are valid for 1 hour. All three services share a single signing secret (`
 
 **Note:** authentication currently uses a single admin credential pair (env-var based), not a full user management system — a deliberate simplification for this portfolio project. A production system would add per-user accounts, refresh tokens, and role-based access control.
 
+## 🛡️ Message Resilience (Dead Letter Queues)
+
+Both `order.created.queue` (consumed by Notification Service) and `inventory.stock.queue` (consumed by Inventory Service) are configured with dead-letter routing. If a listener fails to process a message after **3 retry attempts** (2-second intervals), the message is automatically routed to a dedicated dead-letter queue (`order.created.dlq` / `inventory.stock.dlq`) instead of being lost or retried indefinitely. This prevents a single bad message from blocking the queue and gives visibility into failed events for manual inspection or replay.
+
 ## 📊 Monitoring
 
 Prometheus collects metrics continuously from all three services via `/actuator/prometheus` endpoints. Grafana is available for visualization but run on-demand rather than 24/7, due to memory constraints on the free-tier EC2 instance (`t3.micro`, 1GB RAM) — a deliberate resource tradeoff to keep the core services stable.
