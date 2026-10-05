@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stockora</title>
+<style>
+  body { font-family: -apple-system, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #0f172a; color: #e2e8f0; }
+  h1 { color: #38bdf8; }
+  h2 { margin-top: 40px; border-bottom: 1px solid #334155; padding-bottom: 8px; }
+  input, button { padding: 8px; margin: 4px 0; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #e2e8f0; }
+  button { background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; border: none; padding: 8px 16px; }
+  button:hover { background: #0ea5e9; }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  th, td { text-align: left; padding: 8px; border-bottom: 1px solid #334155; }
+  .status-confirmed { color: #4ade80; }
+  .status-rejected { color: #f87171; }
+  #loginSection { background: #1e293b; padding: 20px; border-radius: 10px; }
+  .hidden { display: none; }
+  label { display: block; margin-top: 8px; font-size: 14px; color: #94a3b8; }
+</style>
+</head>
+<body>
+
+<h1>📦 Stockora</h1>
+<p>Cloud-native microservices e-commerce platform — live demo</p>
+
+<div id="loginSection">
+  <h2>🔐 Login</h2>
+  <label>Username</label>
+  <input id="username" value="admin">
+  <label>Password</label>
+  <input id="password" type="password">
+  <br>
+  <button onclick="login()">Log In</button>
+  <p id="loginStatus"></p>
+</div>
+
+<div id="appSection" class="hidden">
+  <h2>📋 Products</h2>
+  <button onclick="loadProducts()">Refresh Products</button>
+  <table id="productsTable">
+    <thead><tr><th>SKU</th><th>Name</th><th>Quantity</th><th>Price</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <h2>🛒 Create Order</h2>
+  <label>Product SKU</label>
+  <input id="orderSku" placeholder="MOUSE-001">
+  <label>Quantity</label>
+  <input id="orderQty" type="number" value="1">
+  <label>Customer Name</label>
+  <input id="orderCustomer" placeholder="Your name">
+  <br>
+  <button onclick="createOrder()">Place Order</button>
+  <p id="orderStatus"></p>
+
+  <h2>📜 Order History</h2>
+  <button onclick="loadOrders()">Refresh Orders</button>
+  <table id="ordersTable">
+    <thead><tr><th>ID</th><th>SKU</th><th>Qty</th><th>Customer</th><th>Status</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+const INVENTORY_URL = "http://51.21.45.93:8080";
+const ORDER_URL = "http://51.21.45.93:8081";
+let token = "";
+
+async function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  const statusEl = document.getElementById("loginStatus");
+  statusEl.textContent = "Logging in...";
+  try {
+    const res = await fetch(`${ORDER_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    });
+    if (!res.ok) throw new Error("Invalid credentials");
+    const data = await res.json();
+    token = data.token;
+    statusEl.textContent = "✅ Logged in!";
+    document.getElementById("appSection").classList.remove("hidden");
+    loadProducts();
+    loadOrders();
+  } catch (e) {
+    statusEl.textContent = "❌ " + e.message;
+  }
+}
+
+async function loadProducts() {
+  const res = await fetch(`${INVENTORY_URL}/products`, {
+    headers: { "Authorization": "Bearer " + token }
+  });
+  const products = await res.json();
+  const tbody = document.querySelector("#productsTable tbody");
+  tbody.innerHTML = "";
+  products.forEach(p => {
+    tbody.innerHTML += `<tr><td>${p.sku}</td><td>${p.name}</td><td>${p.quantity}</td><td>$${p.price}</td></tr>`;
+  });
+}
+
+async function createOrder() {
+  const productSku = document.getElementById("orderSku").value;
+  const quantity = parseInt(document.getElementById("orderQty").value);
+  const customerName = document.getElementById("orderCustomer").value;
+  const statusEl = document.getElementById("orderStatus");
+  statusEl.textContent = "Placing order...";
+  try {
+    const res = await fetch(`${ORDER_URL}/orders`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+      body: JSON.stringify({ productSku, quantity, customerName })
+    });
+    const order = await res.json();
+    statusEl.textContent = `Order #${order.id}: ${order.status}`;
+    loadOrders();
+    loadProducts();
+  } catch (e) {
+    statusEl.textContent = "❌ " + e.message;
+  }
+}
+
+async function loadOrders() {
+  const res = await fetch(`${ORDER_URL}/orders`, {
+    headers: { "Authorization": "Bearer " + token }
+  });
+  const orders = await res.json();
+  const tbody = document.querySelector("#ordersTable tbody");
+  tbody.innerHTML = "";
+  orders.slice().reverse().forEach(o => {
+    const cls = o.status === "CONFIRMED" ? "status-confirmed" : "status-rejected";
+    tbody.innerHTML += `<tr><td>${o.id}</td><td>${o.productSku}</td><td>${o.quantity}</td><td>${o.customerName}</td><td class="${cls}">${o.status}</td></tr>`;
+  });
+}
+</script>
+
+</body>
+</html>
