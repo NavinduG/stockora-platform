@@ -1,0 +1,11 @@
+inventory.51-21-45-93.sslip.io {
+    reverse_proxy inventory-service:8080
+}
+
+order.51-21-45-93.sslip.io {
+    reverse_proxy order-service:8081
+}
+
+notification.51-21-45-93.sslip.io {
+    reverse_proxy notification-service:8082
+}
