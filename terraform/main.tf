@@ -65,7 +65,7 @@ resource "aws_security_group" "stockora_sg" {
   }
 
   ingress {
-    description = "HTTP (for Let's Encrypt cert challenge)"
+    description = "HTTP for Lets Encrypt cert challenge"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
